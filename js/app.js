@@ -1,7 +1,7 @@
 document.getElementById("commandForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
-    const command = document.getElementById("command").value;
+    const command = document.getElementById("cmd").value;
     const url = `https://linrun.sparkklol.repl.co/execute?cmd=${command}`;
 
     fetch(url)
