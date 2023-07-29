@@ -1,18 +1,25 @@
-document.getElementById('commandForm').addEventListener('submit', function(event) {
+const commandForm = document.getElementById('commandForm');
+const cmdInput = document.getElementById('cmd');
+const outputDiv = document.getElementById('output');
+
+commandForm.addEventListener('submit', async function(event) {
     event.preventDefault();
-    executeCommand();
+    const cmd = cmdInput.value.trim();
+    if (cmd === '') {
+        outputDiv.innerHTML = 'Please enter a command.';
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://linrun.sparkklol.repl.co/execute?cmd=${encodeURIComponent(cmd)}`);
+        const data = await response.json();
+        if (response.ok) {
+            outputDiv.innerHTML = data.result;
+        } else {
+            outputDiv.innerHTML = data.error || 'An unknown error occurred.';
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        outputDiv.innerHTML = 'An error occurred while processing the request.';
+    }
 });
-
-function executeCommand() {
-    const cmd = document.getElementById('cmd').value;
-
-    fetch('http://linrun.sparkklol.repl.co/execute?cmd=' + encodeURIComponent(cmd))
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('output').innerHTML = data.result;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('output').innerHTML = 'An error occurred.';
-        });
-}
