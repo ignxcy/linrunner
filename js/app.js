@@ -1,8 +1,15 @@
 const cmdForm = document.getElementById("commandForm");
 
-cmdForm.onsubmit = () => {
-    const cmd = document.getElementById("cmd").value;
+cmdForm.onsubmit = async (event) => {
+  event.preventDefault();
 
-    const response = fetch(`https://linrun.sparkklol.repl.co/execute?cmd=${cmd}`)
-    console.log(response.text)
-}
+  const cmd = document.getElementById("cmd").value;
+
+  try {
+    const response = await fetch(`https://linrun.sparkklol.repl.co/execute?cmd=${encodeURIComponent(cmd)}`);
+    const responseData = await response.text();
+    console.log(responseData);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
