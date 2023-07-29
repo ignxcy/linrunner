@@ -1,21 +1,8 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const form = document.getElementById("myForm");
-    const cmdInput = document.getElementById("cmd");
+const cmdForm = document.getElementById("commandForm");
 
-    form.addEventListener("submit", function(event) {
-      event.preventDefault();
+cmdForm.onsubmit = () => {
+    const cmd = document.getElementById("cmd").value;
 
-      const command = cmdInput.value;
-      const url = `https://linrun.sparkklol.repl.co/execute?cmd=${encodeURIComponent(command)}`;
-
-      fetch(url)
-        .then(response => response.text())
-        .then(data => {
-          // Do something with the response data if needed
-          console.log(data);
-        })
-        .catch(error => {
-          console.error("Error:", error);
-        });
-    });
-  });
+    const response = fetch(`https://linrun.sparkklol.repl.co/execute?cmd=${cmd}`)
+    console.log(response.text)
+}
